@@ -2,6 +2,8 @@
 
 An interactive Python simulation for visualizing and manipulating vectors in 1D, 2D, and 3D space. This tool helps A-level mathematics students understand vector operations through graphical programming using matplotlib and numpy.
 
+> **Note:** This teaching resource is hosted in the 'Stacks' repository as part of a collection of educational Python simulations.
+
 ## 🎯 Learning Objectives
 
 After using this tool, students will be able to:

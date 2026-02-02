@@ -67,8 +67,8 @@ def plot_1d_vectors(vectors, labels, title="1D Vector Visualization"):
     
     Parameters:
     -----------
-    vectors : list of float
-        The 1D vectors (scalars) to plot
+    vectors : list of array-like or float
+        The 1D vectors to plot. Can be 1-element arrays [x] or scalar floats.
     labels : list of str
         Labels for each vector
     title : str
@@ -80,19 +80,28 @@ def plot_1d_vectors(vectors, labels, title="1D Vector Visualization"):
     # Create a figure and axis with appropriate size
     fig, ax = plt.subplots(figsize=(10, 4))
     
+    # Convert vectors to scalar values (handles both arrays and floats)
+    # This ensures consistent handling of 1D vectors whether passed as [x] or x
+    scalar_values = []
+    for v in vectors:
+        if hasattr(v, '__len__'):  # If it's an array-like
+            scalar_values.append(float(v[0]))
+        else:  # If it's already a scalar
+            scalar_values.append(float(v))
+    
     # Find the range needed for our vectors
-    all_values = [0] + list(vectors)  # Include 0 as the origin
+    all_values = [0] + scalar_values  # Include 0 as the origin
     min_val = min(all_values) - 1
     max_val = max(all_values) + 1
     
     # Draw the number line (x-axis)
     ax.axhline(y=0, color='black', linewidth=1)
     ax.set_xlim(min_val, max_val)
-    ax.set_ylim(-1, len(vectors) + 1)
+    ax.set_ylim(-1, len(scalar_values) + 1)
     
     # Plot each vector as an arrow from the origin
     color_keys = ['vector1', 'vector2', 'vector3', 'result']
-    for i, (vec, label) in enumerate(zip(vectors, labels)):
+    for i, (vec, label) in enumerate(zip(scalar_values, labels)):
         color = COLORS.get(color_keys[i % len(color_keys)], COLORS['vector1'])
         
         # Draw arrow from origin (0) to the vector value
@@ -104,7 +113,7 @@ def plot_1d_vectors(vectors, labels, title="1D Vector Visualization"):
                     arrowprops=dict(arrowstyle='->', color=color, lw=2))
         
         # Add label with the vector value
-        ax.text(vec, y_offset + 0.2, f'{label} = {vec}', 
+        ax.text(vec, y_offset + 0.2, f'{label} = {vec:.2f}', 
                 ha='center', fontsize=10, color=color)
     
     # Add grid and labels
@@ -511,8 +520,9 @@ def scalar_multiplication_demo(dimension):
     labels = ['Original (v)', f'Result ({scalar}v)']
     title = f"Scalar Multiplication: {scalar} × v"
     
+    # plot_1d_vectors now handles arrays directly
     if dimension == 1:
-        plot_1d_vectors([v[0] for v in vectors_to_plot], labels, title)
+        plot_1d_vectors(vectors_to_plot, labels, title)
     elif dimension == 2:
         plot_2d_vectors(vectors_to_plot, labels, title)
     else:
@@ -555,8 +565,9 @@ def vector_addition_demo(dimension):
     labels = ['v₁', 'v₂', 'v₁ + v₂']
     title = "Vector Addition: v₁ + v₂"
     
+    # plot_1d_vectors now handles arrays directly
     if dimension == 1:
-        plot_1d_vectors([v[0] for v in vectors_to_plot], labels, title)
+        plot_1d_vectors(vectors_to_plot, labels, title)
     elif dimension == 2:
         plot_2d_vectors(vectors_to_plot, labels, title)
     else:
@@ -616,8 +627,9 @@ def convex_combination_demo(dimension):
     weight_str = " + ".join([f"{w}v{i+1}" for i, w in enumerate(weights)])
     title = f"Convex Combination: {weight_str}"
     
+    # plot_1d_vectors now handles arrays directly
     if dimension == 1:
-        plot_1d_vectors([v[0] for v in vectors_to_plot], labels, title)
+        plot_1d_vectors(vectors_to_plot, labels, title)
     elif dimension == 2:
         plot_2d_vectors(vectors_to_plot, labels, title)
     else:
