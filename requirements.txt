@@ -1,0 +1,16 @@
+# Requirements for Vector Simulation Tool
+# A-Level Mathematics - Vector Visualization
+#
+# Install these packages by running:
+#   pip install -r requirements.txt
+#
+# Or install them individually:
+#   pip install numpy matplotlib
+
+# numpy: For numerical operations and array handling
+# Used for vector calculations (addition, scalar multiplication, etc.)
+numpy>=1.20.0
+
+# matplotlib: For creating plots and visualizations
+# Used for drawing vectors as arrows and creating interactive graphs
+matplotlib>=3.4.0
